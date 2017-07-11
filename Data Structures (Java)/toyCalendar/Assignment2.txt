@@ -1,0 +1,95 @@
+Data Structures: Programming Assignment 2
+
+Assigned: Oct. 3 
+Due: Oct. 26
+PLEASE NOTE
+
+1. The due date on this assignment has been pushed back to Oct. 26.
+
+2. You do not have to use GOrderedList; you may write your own code for ordered linked lists
+
+In this assignment, you will use ordered linked lists to implement a toy calendar program. Use the GOrderedList class defined in the class notes.
+
+Specifically, your program will accept a sequence of commands of the following kind.
+
+A [EventName] [Date] -- Add the event on the date.
+A [EventName] [Date] [Category] -- Add the event on the date with the category.
+AC [EventName] [Category] --- Add category to the event. The event must already have been added using A. If there are multiple events with the same name, add the category to all of them.
+C --- List all the categories in alphabetical order.
+E [EventName] Print out the information associated with the event. Categories should be listed alphabetically. If there are multiple events with the same name, they should all be listed, on separate lines.
+L -- List all the events in chronological sequence.
+LD [Date] --- List all the events on the specified date (the order is arbitrary).
+LC [Category] List all the events of the specified category in chronological order.
+X -- terminate the program.
+The format for dates is "Year-Month-Day" e.g. "2016-09-28". Assume that each event name is an alphabetic string, with no numbers, punctuation, or white space.
+
+Unlike programming assignment 1, multiple events may have the same name, with either the same or different dates, and either the same or different categories.
+
+Input                             Output
+A French 2016-10-12 School
+A MomsBirthday 2016-10-10 Family
+AC MomsBirthday Party
+L 
+                                  MomsBirthday 2016-10-10 Family Party
+                                  French 2016-10-12 School
+A DataStructures 2016-10-03
+LC School
+                                  French 2016-10-12 School
+AC DataStructures School
+A French 2016-11-05 School
+LC School                         
+                                  DataStructures 2016-10-03 School
+                                  French 2016-10-12 School
+                                  French 2016-11-05 School
+E French
+                                  French 2016-10-12 School
+                                  French 2016-11-05 School
+C
+                                  Family Party School
+A ColumbusDay 2016-10-10 
+LD 2016-10-10
+                                  ColumbusDay 2016-10-10 
+                                  MomsBirthday 2016-10-10
+X
+Implementation
+
+Dates
+
+For reading and writing dates, use the Java library class java.sql.Date You can convert a String S in YEAR-MO-DA format to a Date using Date.valueOf(S) and go the other way using Date.toString(). The Date class implements Comparable so there is a built-in compareTo(d) method for comparing two dates.
+Events and Categories
+
+Define two classes, Event and Category. Both of these should be defined as implementing the Comparable interface.
+An Event has data fields 
+String name; 
+Date date; 
+GOrderedList < Category > categories 
+You should implement a toString method for Event to make it easy to produce the above output format.
+
+A Category has data fields 
+String name; 
+GOrderedList < Event > events;
+
+You will have to implement a compareTo method for both Event and Category. The declaration of compareto for Event has the form
+
+   int compareTo(Event E)
+and should call the compareTo method for the dates of the two events (the owner of the method and the argument).
+The declararation of compareTo for Category should have the declaration
+
+    int compareTo(Category C)
+and should call the compareTo method for the names of the two categories (that is, the compareTo method for strings).
+Stubs for Event and Category with the correct class declaration and definitions of compareTo can be found at Event.java and Category.java . Of course, you have to write the additional methods for both classes.
+
+There should be two global variables: 
+GOrderedList < Event > allEvents, a list of all events in chronological order. 
+GOrderedList < Category > allCategories, a list of all categories in alphabetical order.
+
+The event name and date cannot be changed once the event is created, and the list of categories should be changed using GOrderedList.add, so no setters are needed for either Event or Category.
+
+If an Event is created with no category, its categories field should be initialized to the empty list (i.e. just a header), not to null.
+
+Input/Output
+
+As in programming assignment 1, you may assume that the input is correctly formatted, so you do not have to check for invalid inputs. There are no problematic cases you have to catch.
+Submission
+
+Upload the code to the NYU Classes site.
